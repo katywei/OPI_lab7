@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Баннер Изменено</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: #0f172a;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Баннер */
+    .banner {
+        position: absolute;
+        top: -150px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        padding: 30px 80px;
+        font-size: 40px;
+        font-weight: bold;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        animation: drop 2s ease-out forwards;
+        z-index: 2;
+    }
+
+    /* Анимация спуска */
+    @keyframes drop {
+        0% {
+            top: -150px;
+        }
+        70% {
+            top: 45%;
+        }
+        100% {
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    /* Конфетти */
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        opacity: 0.9;
+        animation: fly 2s ease-out forwards;
+    }
+
+    @keyframes fly {
+        from {
+            transform: translate(0, 0) rotate(0deg);
+            opacity: 1;
+        }
+        to {
+            transform: translate(var(--x), var(--y)) rotate(720deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="banner">Изменено</div>
+
+<script>
+    function createConfetti(side) {
+        for (let i = 0; i < 40; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti");
+
+            const colors = ["#f43f5e", "#facc15", "#38bdf8", "#22c55e", "#a855f7"];
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+            const startX = side === "left" ? 50 : window.innerWidth - 50;
+            const startY = window.innerHeight / 2;
+
+            confetti.style.left = startX + "px";
+            confetti.style.top = startY + "px";
+
+            const x = side === "left"
+                ? Math.random() * 400
+                : -Math.random() * 400;
+            const y = (Math.random() - 0.5) * 400;
+
+            confetti.style.setProperty("--x", x + "px");
+            confetti.style.setProperty("--y", y + "px");
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 2000);
+        }
+    }
+
+    // Запуск хлопушек во время анимации
+    setTimeout(() => {
+        createConfetti("left");
+        createConfetti("right");
+    }, 500);
+</script>
+
+</body>
+</html>
